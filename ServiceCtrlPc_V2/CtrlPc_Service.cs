@@ -52,16 +52,16 @@ namespace Scheduler
 
         // Variables Indiquant le State des Différents Threads : WAIT_ON / WAIT_OFF / ON / OFF
         public static volatile string Service_Thread_Schedule_State = "UNKNOWN";
-        public static volatile string Service_Thread_Task1_State = "UNKNOWN";
+        public static volatile string Service_Thread_Heartbeat_State = "UNKNOWN";
         public static volatile string Service_Thread_Task2_State = "UNKNOWN";
 
         public static volatile bool Service_Thread_Schedule_Running = false;
-        public static volatile bool Service_Thread_Task1_Running = false;
+        public static volatile bool Service_Thread_Heartbeat_Running = false;
         public static volatile bool Service_Thread_Task2_Running = false;
 
         private List<object> _Thread_Service_List = new List<object>() {
                                                                             new Service.Thread.Schedule.AD_Thread_Schedule(),
-                                                                            new Service.Thread.task1.AD_Thread_Task1(),
+                                                                            new Service.Thread.Heartbeat.AD_Thread_Heartbeat(),
                                                                             new Service.Thread.task2.AD_Thread_Task2(),
                                                                        };
 
@@ -186,7 +186,7 @@ namespace Scheduler
                     Service_State="STARTED";
 
                     Service_Thread_Schedule_State = "WAIT_ON";
-                    Service_Thread_Task1_State = "WAIT_ON";
+                    Service_Thread_Heartbeat_State = "WAIT_ON";
                     Service_Thread_Task2_State = "WAIT_ON";
                 }
                 else
@@ -242,7 +242,7 @@ namespace Scheduler
                 Service_State="STOPPING";
 
                 Service_Thread_Schedule_State = "WAIT_OFF";
-                Service_Thread_Task1_State = "WAIT_OFF";
+                Service_Thread_Heartbeat_State = "WAIT_OFF";
                 Service_Thread_Task2_State = "WAIT_OFF";
 
                 System.Threading.Thread.Sleep(30000);
