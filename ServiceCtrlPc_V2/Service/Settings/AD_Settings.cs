@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -56,6 +57,7 @@ namespace Scheduler.Service.Settings
             CtrlPc_Service.Service_Security_Mode_Log_Size_Max = Convert.ToInt64(200000000);
             CtrlPc_Service.Service_Security_Mode_Log_Data_Size_Max = Convert.ToInt64(200000000);
             CtrlPc_Service.HostName = Dns.GetHostName().ToString();
+            CtrlPc_Service.guid= Registry.GetValue(@"HKEY_USERS\.DEFAULT\Software\CtrlPc\Version", "GUID", "123456789ABCDEF").ToString();
 
 
             if (Domain_Check().ToUpper() != "PDV3F33.LOCAL")

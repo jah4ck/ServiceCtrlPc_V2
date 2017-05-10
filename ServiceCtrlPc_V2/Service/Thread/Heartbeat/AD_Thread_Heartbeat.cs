@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceCtrlPc_V2.Tools.Heure;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -47,10 +48,38 @@ namespace Scheduler.Service.Thread.Heartbeat
         }
         public void Heartbeat_Talk()
         {
-            for (int i = 0; i < 100; i++)
+
+            SynchroHeure MySynchroHeure = new SynchroHeure();
+            DateTime dateTraitement = DateTime.Now;
+            try
             {
-                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Heartbeat : "+i);
-                System.Threading.Thread.Sleep(2000);
+                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Récupération Heure");
+                dateTraitement = MySynchroHeure.GetNetworkTime();
+            }
+            catch (Exception err)
+            {
+                Tools.Log.AD_Logger_Tools.Log_Write("ERROR", err, new StackTrace(true));
+                dateTraitement = DateTime.Now;
+            }
+
+            try
+            {
+                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Intérogation WS");
+                string stop = CtrlPc_Service.ws.GetHeartbeat(CtrlPc_Service.guid, dateTraitement);
+                if (stop=="1")
+                {
+                    Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Demande d'arrêt de l'ordinateur");
+                }
+                if (stop=="2")
+                {
+                    Tools.Log.AD_Logger_Tools.Log_Write("WARN", "Erreur lors du contrôle d'arrêt");
+                }
+                
+
+            }
+            catch (Exception err)
+            {
+                Tools.Log.AD_Logger_Tools.Log_Write("ERROR", err, new StackTrace(true));
             }
         }
     }

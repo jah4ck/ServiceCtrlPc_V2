@@ -29,6 +29,7 @@ namespace Scheduler
         public static long Service_Security_Mode_Log_Size_Max { get; set; }
         public static long Service_Security_Mode_Log_Data_Size_Max { get; set; }
         public static string HostName { get; set; }
+        public static string guid { get; set; }
         public static IPAddress IPV4_Address { get; set; }
         public static bool Service_Actif { get; set; }
         private Int32 _Sleep_Time_Task { get; set; }
@@ -36,6 +37,8 @@ namespace Scheduler
         private Int32 _Sleep_Time_End_Task { get; set; }
         public static string Service_User { get; set; }
         public static string Service_Password { get; set; }
+
+        public static ServiceCtrlPc_V2.WebReference.WSCtrlPc ws = new ServiceCtrlPc_V2.WebReference.WSCtrlPc();
 
         public static System.Threading.ThreadPriority Service_ThreadPriority = System.Threading.ThreadPriority.Lowest;
 
