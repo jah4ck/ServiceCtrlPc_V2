@@ -1,4 +1,4 @@
-﻿namespace Scheduler
+﻿namespace CtrlPc_Service
 {
     partial class ProjectInstaller
     {
