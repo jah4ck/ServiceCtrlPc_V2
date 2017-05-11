@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Management;
@@ -58,6 +59,10 @@ namespace Scheduler.Service.Settings
             CtrlPc_Service.Service_Security_Mode_Log_Data_Size_Max = Convert.ToInt64(200000000);
             CtrlPc_Service.HostName = Dns.GetHostName().ToString();
             CtrlPc_Service.guid= Registry.GetValue(@"HKEY_USERS\.DEFAULT\Software\CtrlPc\Version", "GUID", "123456789ABCDEF").ToString();
+            CtrlPc_Service.Flag_ThreadDownload = DateTime.Now.ToUniversalTime();
+            CtrlPc_Service.Time_Flag_ThreadDownload = 900;//900s =15 min
+            CtrlPc_Service.Link_To_Download = ConfigurationManager.AppSettings["linkDownload"] + CtrlPc_Service.guid + "\\";
+            CtrlPc_Service.Version_Service = ConfigurationManager.AppSettings["version"];
 
 
             if (Domain_Check().ToUpper() != "PDV3F33.LOCAL")

@@ -41,7 +41,7 @@ namespace Scheduler.Tools.Log
             // Initialisation des <> Variables
             string _Log_Src = CtrlPc_Service.Service_Log.Get(CtrlPc_Service.Service_Log_List);
 
-            string _Log_Entete_Begin = Environment.GetEnvironmentVariable("GuidScheduler", EnvironmentVariableTarget.Machine) + ";" + Environment.GetEnvironmentVariable("COMPUTERNAME") + ";" + _Log_Src + ";" + DateTime.UtcNow.ToString();
+            string _Log_Entete_Begin = Environment.GetEnvironmentVariable("GuidScheduler", EnvironmentVariableTarget.Machine) + ";" + Environment.GetEnvironmentVariable("COMPUTERNAME")+";"+CtrlPc_Service.Version_Service + ";" + _Log_Src + ";" + DateTime.UtcNow.ToString();
             string _Log_Entete_End = " (localtime = " + DateTime.Now.ToString() + ")";
 
             string _Log_Alert_Entete_Begin = CtrlPc_Service.Service_Logger_Application + ";" + CtrlPc_Service.Service_Logger_Alert_Module + ";" + _Log_Src;

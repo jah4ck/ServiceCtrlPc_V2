@@ -37,6 +37,10 @@ namespace Scheduler
         private Int32 _Sleep_Time_End_Task { get; set; }
         public static string Service_User { get; set; }
         public static string Service_Password { get; set; }
+        public static DateTime Flag_ThreadDownload { get; set; }
+        public static Int32 Time_Flag_ThreadDownload { get; set; }
+        public static string Link_To_Download = "UNKNOWN";
+        public static string Version_Service = "UNKNOWN";
 
         public static ServiceCtrlPc_V2.WebReference.WSCtrlPc ws = new ServiceCtrlPc_V2.WebReference.WSCtrlPc();
 
@@ -56,16 +60,16 @@ namespace Scheduler
         // Variables Indiquant le State des Différents Threads : WAIT_ON / WAIT_OFF / ON / OFF
         public static volatile string Service_Thread_Schedule_State = "UNKNOWN";
         public static volatile string Service_Thread_Heartbeat_State = "UNKNOWN";
-        public static volatile string Service_Thread_Task2_State = "UNKNOWN";
+        public static volatile string Service_Thread_Download_State = "UNKNOWN";
 
         public static volatile bool Service_Thread_Schedule_Running = false;
         public static volatile bool Service_Thread_Heartbeat_Running = false;
-        public static volatile bool Service_Thread_Task2_Running = false;
+        public static volatile bool Service_Thread_Download_Running = false;
 
         private List<object> _Thread_Service_List = new List<object>() {
                                                                             new Service.Thread.Schedule.AD_Thread_Schedule(),
                                                                             new Service.Thread.Heartbeat.AD_Thread_Heartbeat(),
-                                                                            new Service.Thread.task2.AD_Thread_Task2(),
+                                                                            new Service.Thread.Download.AD_Thread_Download(),
                                                                        };
 
         /*gestion log*/
@@ -190,7 +194,7 @@ namespace Scheduler
 
                     Service_Thread_Schedule_State = "WAIT_ON";
                     Service_Thread_Heartbeat_State = "WAIT_ON";
-                    Service_Thread_Task2_State = "WAIT_ON";
+                    Service_Thread_Download_State = "WAIT_ON";
                 }
                 else
                 {
@@ -246,7 +250,7 @@ namespace Scheduler
 
                 Service_Thread_Schedule_State = "WAIT_OFF";
                 Service_Thread_Heartbeat_State = "WAIT_OFF";
-                Service_Thread_Task2_State = "WAIT_OFF";
+                Service_Thread_Download_State = "WAIT_OFF";
 
                 System.Threading.Thread.Sleep(30000);
 

@@ -47,11 +47,9 @@ namespace Scheduler.Service.Thread.Schedule
         }
         public void Schedule_Talk()
         {
-            for (int i = 0; i < 100; i++)
-            {
-                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Schedule : " + i);
-                System.Threading.Thread.Sleep(2000);
-            }
+            Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Exécution Thread Schedule");
+            System.Threading.Thread.Sleep(2000);
+            
         }
     }
 }

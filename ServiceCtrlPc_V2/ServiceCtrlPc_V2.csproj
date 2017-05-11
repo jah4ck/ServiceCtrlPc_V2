@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
@@ -72,8 +73,9 @@
     <Compile Include="Service\Thread\AD_Thread_Launch.cs" />
     <Compile Include="Service\Thread\Schedule\AD_Thread_Schedule.cs" />
     <Compile Include="Service\Thread\Heartbeat\AD_Thread_Heartbeat.cs" />
-    <Compile Include="Service\Thread\task2\AD_Thread_Task2.cs" />
+    <Compile Include="Service\Thread\Download\AD_Thread_Download.cs" />
     <Compile Include="Tools\Crypt\AD_Encryption_Tools.cs" />
+    <Compile Include="Tools\Download\AD_Download_File.cs" />
     <Compile Include="Tools\Heure\SynchroHeure.cs" />
     <Compile Include="Tools\Log\AD_Logger_Source_Tools.cs" />
     <Compile Include="Tools\Log\AD_Logger_Tools.cs" />
@@ -86,7 +88,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
