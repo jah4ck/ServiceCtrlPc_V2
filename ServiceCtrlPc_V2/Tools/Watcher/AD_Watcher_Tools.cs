@@ -1,0 +1,73 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+
+namespace Scheduler.Tools.Watcher
+{
+    public class AD_Watcher_Tools
+    {
+        private List<FileSystemWatcher> listFileSystemWatcher;
+
+        private FileSystemWatcher fileWatcher = null;
+
+        public AD_Watcher_Tools(string _directory)
+        {
+            try
+            {
+                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Initialisation du watcher pour le répertoire : "+_directory);
+                StartFileSystemWatcher(_directory);
+                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Initialisation du watcher terminé pour le répertoire : " + _directory);
+            }
+            catch (Exception _err)
+            {
+                Tools.Log.AD_Logger_Tools.Log_Write("ERROR", _err, new StackTrace(true));
+            }
+        }
+        private void StartFileSystemWatcher(string _directory)
+        {
+            this.listFileSystemWatcher = new List<FileSystemWatcher>();
+            DirectoryInfo dir = new DirectoryInfo(_directory);
+            if (dir.Exists)
+            {
+                //FileSystemWatcher fileWatcher = new FileSystemWatcher();
+                fileWatcher = new FileSystemWatcher()
+                {
+                    Path = _directory,
+                    NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.CreationTime,
+                    Filter = "*.*"
+                };
+                //fileWatcher.Filter = "*.exe";
+               // fileWatcher.Path = _directory;
+                //fileWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.CreationTime;
+
+                fileWatcher.Changed += new FileSystemEventHandler(newFile);
+                fileWatcher.EnableRaisingEvents = true;
+                listFileSystemWatcher.Add(fileWatcher);
+
+            }
+
+        }
+        private static void newFile(object source, FileSystemEventArgs e)
+        {
+            try
+            {
+                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Déclenchement de l'évènement AD_Watcher_Tools");
+                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Présence fichier : " + e.FullPath + "\t" + e.ChangeType);
+                foreach (string file in Directory.GetFiles(@"C:\ProgramData\CtrlPc\UPDATE"))
+                {
+                    File.Delete(file);
+                }
+                Service.Update.AD_Update_Service_Task.Update_Service_Task();
+            }
+            catch (Exception _err)
+            {
+                File.Create(@"C:\TEMP\ERR.FLG");
+                Tools.Log.AD_Logger_Tools.Log_Write("ERROR", _err, new StackTrace(true));
+            }
+            
+        }
+    }
+}

@@ -64,6 +64,7 @@ namespace Scheduler.Service.Settings
             CtrlPc_Service.Link_To_Download = ConfigurationManager.AppSettings["linkDownload"] + CtrlPc_Service.guid + "\\";
             CtrlPc_Service.Version_Service = ConfigurationManager.AppSettings["version"];
 
+            
 
             if (Domain_Check().ToUpper() != "PDV3F33.LOCAL")
             {
