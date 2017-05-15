@@ -123,8 +123,9 @@ namespace Scheduler
                 DateTime _Service_Actif_Check_DateTime = DateTime.UtcNow;
 
                 Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Début Démarrage Service en Mode " + Start_Mode + " ...", true);
+                
                 //initialisation du watcher update
-                Tools.Watcher.AD_Watcher_Tools watch = new Tools.Watcher.AD_Watcher_Tools(@"C:\ProgramData\CtrlPc\UPDATE");
+                //Tools.Watcher.AD_Watcher_Tools watch = new Tools.Watcher.AD_Watcher_Tools(@"C:\ProgramData\CtrlPc\UPDATE");
 
                 Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Wait Service Actif ...");
 
