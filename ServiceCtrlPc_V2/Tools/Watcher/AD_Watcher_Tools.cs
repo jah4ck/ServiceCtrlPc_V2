@@ -9,6 +9,7 @@ namespace Scheduler.Tools.Watcher
 {
     public class AD_Watcher_Tools
     {
+        //voir dans une autre branche pk ça plante en attendant on scan le répertoire toutes les 15s
         private List<FileSystemWatcher> listFileSystemWatcher;
 
         private FileSystemWatcher fileWatcher = null;
