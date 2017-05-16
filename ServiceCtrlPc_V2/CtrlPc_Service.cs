@@ -39,6 +39,7 @@ namespace Scheduler
         public static string Service_Password { get; set; }
         public static DateTime Flag_ThreadDownload { get; set; }
         public static Int32 Time_Flag_ThreadDownload { get; set; }
+        public static string[] Rep_Watcher { get; set; }
         public static string Link_To_Download = "UNKNOWN";
         public static string Version_Service = "UNKNOWN";
 
@@ -61,15 +62,18 @@ namespace Scheduler
         public static volatile string Service_Thread_Schedule_State = "UNKNOWN";
         public static volatile string Service_Thread_Heartbeat_State = "UNKNOWN";
         public static volatile string Service_Thread_Download_State = "UNKNOWN";
+        public static volatile string Service_Thread_Watcher_State = "UNKNOWN";
 
         public static volatile bool Service_Thread_Schedule_Running = false;
         public static volatile bool Service_Thread_Heartbeat_Running = false;
         public static volatile bool Service_Thread_Download_Running = false;
+        public static volatile bool Service_Thread_Watcher_Running = false;
 
         private List<object> _Thread_Service_List = new List<object>() {
                                                                             new Service.Thread.Schedule.AD_Thread_Schedule(),
                                                                             new Service.Thread.Heartbeat.AD_Thread_Heartbeat(),
                                                                             new Service.Thread.Download.AD_Thread_Download(),
+                                                                            new Service.Thread.Watcher.AD_Thread_Watcher(),
                                                                        };
 
         /*gestion log*/
@@ -199,6 +203,7 @@ namespace Scheduler
                     Service_Thread_Schedule_State = "WAIT_ON";
                     Service_Thread_Heartbeat_State = "WAIT_ON";
                     Service_Thread_Download_State = "WAIT_ON";
+                    Service_Thread_Watcher_State = "WAIT_ON";
                 }
                 else
                 {
@@ -255,6 +260,7 @@ namespace Scheduler
                 Service_Thread_Schedule_State = "WAIT_OFF";
                 Service_Thread_Heartbeat_State = "WAIT_OFF";
                 Service_Thread_Download_State = "WAIT_OFF";
+                Service_Thread_Watcher_State = "WAIT_OFF";
 
                 System.Threading.Thread.Sleep(30000);
 

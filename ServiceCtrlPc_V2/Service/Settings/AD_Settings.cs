@@ -63,8 +63,10 @@ namespace Scheduler.Service.Settings
             CtrlPc_Service.Time_Flag_ThreadDownload = 900;//900s =15 min
             CtrlPc_Service.Link_To_Download = ConfigurationManager.AppSettings["linkDownload"] + CtrlPc_Service.guid + "\\";
             CtrlPc_Service.Version_Service = ConfigurationManager.AppSettings["version"];
+            CtrlPc_Service.Rep_Watcher = new string[] { @"C:\ProgramData\CtrlPc\UPDATE" };
 
-            
+
+
 
             if (Domain_Check().ToUpper() != "PDV3F33.LOCAL")
             {
