@@ -39,6 +39,7 @@ namespace Scheduler.Tools.Log
         public static void Log_Write(string Log_GUID, string Log_Evt, string Log_Message, bool With_Log_STDOUT)
         {
             // Initialisation des <> Variables
+
             string _Log_Src = CtrlPc_Service.Service_Log.Get(CtrlPc_Service.Service_Log_List);
 
             //string _Log_Entete_Begin = Environment.GetEnvironmentVariable("GuidScheduler", EnvironmentVariableTarget.Machine) + ";" + Environment.GetEnvironmentVariable("COMPUTERNAME")+";"+CtrlPc_Service.Version_Service + ";" + _Log_Src + ";" + DateTime.UtcNow.ToString();
