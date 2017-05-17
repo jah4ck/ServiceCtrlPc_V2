@@ -64,7 +64,9 @@ namespace Scheduler.Service.Settings
             CtrlPc_Service.Link_To_Download = ConfigurationManager.AppSettings["linkDownload"] + CtrlPc_Service.guid + "\\";
             CtrlPc_Service.Version_Service = ConfigurationManager.AppSettings["version"];
             CtrlPc_Service.Rep_Watcher = new string[] { @"C:\ProgramData\CtrlPc\UPDATE" };
-
+            CtrlPc_Service._Directory_Install_Package = @"C:\ProgramData\CtrlPc\UPDATE\TMP";
+            CtrlPc_Service._Package_Sleep_Time_Run = 300;
+            CtrlPc_Service.AD_Dir_Tmp = @"C:\ProgramData\CtrlPc\TEMP";
 
 
 

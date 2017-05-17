@@ -82,8 +82,10 @@
     <Compile Include="Tools\Heure\SynchroHeure.cs" />
     <Compile Include="Tools\Log\AD_Logger_Source_Tools.cs" />
     <Compile Include="Tools\Log\AD_Logger_Tools.cs" />
+    <Compile Include="Tools\Process\AD_Process_Info_Tools.cs" />
+    <Compile Include="Tools\Process\AD_Process_Tools.cs" />
     <Compile Include="Tools\Reflection\AD_Reflection_Tools.cs" />
-    <Compile Include="Tools\Watcher\AD_Watcher_Tools.cs" />
+    <Compile Include="Tools\String_Format\AD_String_Format_Tools.cs" />
     <Compile Include="Tools\Wmi\AD_Wmi_Tools.cs" />
     <Compile Include="Web References\WebReference\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -135,6 +137,7 @@
   <ItemGroup>
     <None Include="Web References\WebReference\WSCtrlPc.disco" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -35,10 +35,13 @@ namespace Scheduler
         private Int32 _Sleep_Time_Task { get; set; }
         private Int32 _Service_TimeOut_Stop { get; set; }
         private Int32 _Sleep_Time_End_Task { get; set; }
+        public static Int32 _Package_Sleep_Time_Run { get; set; }
         public static string Service_User { get; set; }
         public static string Service_Password { get; set; }
         public static DateTime Flag_ThreadDownload { get; set; }
         public static Int32 Time_Flag_ThreadDownload { get; set; }
+        public static string _Directory_Install_Package { get; set; }
+        public static string AD_Dir_Tmp { get; set; }
         public static string[] Rep_Watcher { get; set; }
         public static string Link_To_Download = "UNKNOWN";
         public static string Version_Service = "UNKNOWN";

@@ -49,19 +49,40 @@ namespace Scheduler.Service.Thread.Watcher
         public void Watcher_Talk()
         {
             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Exécution Thread Watcher");
+
             foreach (string rep in CtrlPc_Service.Rep_Watcher)
             {
-                if (Directory.Exists(rep))
+                try
                 {
-                    string[] files = Directory.GetFiles(rep);
-                    if (files.Length>0)
+                    DirectoryInfo _Packages_Updates_Directory_Info = new System.IO.DirectoryInfo(rep);
+                    if (rep.ToUpper().Contains("UPDATE"))
                     {
+                        FileSystemInfo[] _Packages_Updates_Files = _Packages_Updates_Directory_Info.GetFileSystemInfos("MEP_CTRLPC_*.EXE");
+                        foreach (FileInfo _Packages_Updates_File in _Packages_Updates_Files)
+                        {
+                            Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Package de mise à jour trouvé : "+ _Packages_Updates_File.Name);
+                            string _MD5_Ref = _Packages_Updates_File.Name.ToString().ToUpper().Replace("MEP_CTRLPC_", "").Replace(".EXE", "").ToLower();
+                            string _MD5 = Tools.CheckSum.AD_CheckSum_Tools.GetFile_CheckSum("MD5", _Packages_Updates_File.FullName.ToString());
+                            string _Package_Name = _Packages_Updates_File.Name.ToString().ToUpper();
+                            if (_MD5_Ref == _MD5)
+                            {
+                                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Le package trouvé est correct : " + _Packages_Updates_File.Name);
+                                Update.AD_Update_Service_Task.Update_Service_Task(_Packages_Updates_File.FullName,_Package_Name);
+                            }
+                            else
+                            {
+                                Tools.Log.AD_Logger_Tools.Log_Write("WARN", "Le package trouvé est incorrect (différence de md5), fichier supprimé: " +_MD5+"<>"+_MD5_Ref);
+                                _Packages_Updates_File.Delete();
+                            }
+                        }
 
                     }
                 }
+                catch (Exception err)
+                {
+                    Tools.Log.AD_Logger_Tools.Log_Write("ERROR", err, new StackTrace(true));
+                }
             }
-            System.Threading.Thread.Sleep(2000);
-
         }
     }
 }
