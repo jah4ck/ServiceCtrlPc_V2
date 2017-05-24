@@ -148,9 +148,11 @@ namespace Scheduler
 
             AD_Settings _AD_Settings = new AD_Settings();
 
+            _Install_Culture_Info = CtrlPc_Service.Service_Culture_Info;
+
             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Install. Service : Début Exécution Function \"OnBeforeInstall\" ...", true);
 
-            _Install_Culture_Info = CtrlPc_Service.Service_Culture_Info;
+            
 
             // Paramétrage Services (User, Mode Démarrage, etc, ...)
             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Paramétrage Services (User, Mode Démarrage, etc, ...) ...", true);
@@ -207,14 +209,15 @@ namespace Scheduler
             Object Guid = Registry.GetValue(@"HKEY_USERS\.DEFAULT\Software\CtrlPc\Version", "GUID", null);
             String hostName = Dns.GetHostName();
             Object identifiant = Registry.GetValue(@"HKEY_USERS\.DEFAULT\Software\CtrlPc\Version", "Identifiant", null);
-            string pathLog_package = @"C:\ProgramData\CtrlPc\TEMP\Install.log";
+            //string pathLog_package = @"C:\ProgramData\CtrlPc\TEMP\Install.log";
             string pathTempInstall = @"C:\ProgramData\CtrlPc\TEMP";
             string pathLog_InstallService = @"C:\ProgramData\CtrlPc\LOGS\Log_INSTALLUTIL_" + DateTime.Now.ToString("yyyyMMdd")+".Log";
 
-            Inscription_GUID(hostName.ToString(),Guid.ToString(),identifiant.ToString(),versionStation.ToString());
-            CheckVersion(versionStation.ToString());
-            Rem_Log_Install_Package(pathLog_package,Guid.ToString());
-            Purge_Rep_Install(pathTempInstall);
+            //Inscription_GUID(hostName.ToString(),Guid.ToString(),identifiant.ToString(),versionStation.ToString());
+            //CheckVersion(versionStation.ToString());
+            //Rem_Log_Install_Package(pathLog_package,Guid.ToString());
+            //Purge_Rep_Install(pathTempInstall);
+            Rem_Log_Install_Service(pathLog_InstallService);
 
             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Install. Service : Fin Exécution Function \"OnAfterInstall\" ...", true);
         }
@@ -328,19 +331,27 @@ namespace Scheduler
                     string[] lignes = File.ReadAllLines(_path_Log_Service);
                     foreach (string ligne in lignes)
                     {
-                        string[] colonne = ligne.Split(';');
-                        string _guid = colonne[0];
-                        string info_erreur = colonne[5];
-                        int codeerreur = 2;
-                        if (info_erreur=="ERROR"||info_erreur=="WARN")
+                        try
                         {
-                            codeerreur = 1;
+                            string[] colonne = ligne.Split(';');
+                            string _guid = colonne[0];
+                            string info_erreur = colonne[5];
+                            int codeerreur = 2;
+                            if (info_erreur == "ERROR" || info_erreur == "WARN")
+                            {
+                                codeerreur = 1;
+                            }
+                            string message = colonne[6];
+                            DateTime dateTraitement = Convert.ToDateTime(colonne[4]).ToLocalTime();
+                            ws.TraceLog(_guid, dateTraitement, "INSTALLATION", codeerreur, message);
                         }
-                        string message = colonne[6];
-                        DateTime dateTraitement = Convert.ToDateTime(colonne[4]).ToLocalTime();
-                        ws.TraceLog(_guid, dateTraitement, "INSTALLATION", codeerreur, message);
+                        catch (Exception )
+                        {
+
+                        }
+                        
                     }
-                    File.Delete(_path_Log_Service);
+                    //File.Delete(_path_Log_Service);
                 }
                 catch (Exception err)
                 {

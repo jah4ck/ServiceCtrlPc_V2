@@ -23,7 +23,7 @@ namespace Scheduler.Service.Settings
 
         private static string Domain_Check()
         {
-            Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Check Domain Info ...", true);
+            //Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Check Domain Info ...", true);
 
             string _Domain_Check = null;
 
@@ -35,7 +35,7 @@ namespace Scheduler.Service.Settings
 
                 if (_Domain_Check != null)
                 {
-                    Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Domain = " + _Domain_Check, true);
+                    //Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Domain = " + _Domain_Check, true);
 
                     break;
                 }
