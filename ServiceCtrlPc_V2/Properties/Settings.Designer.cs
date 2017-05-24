@@ -22,15 +22,5 @@ namespace ServiceCtrlPc_V2.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.24:8030/WSCtrlPc.asmx")]
-        public string ServiceCtrlPc_V2_WebReference_WSCtrlPc {
-            get {
-                return ((string)(this["ServiceCtrlPc_V2_WebReference_WSCtrlPc"]));
-            }
-        }
     }
 }

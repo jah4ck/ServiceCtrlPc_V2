@@ -87,7 +87,7 @@
     <Compile Include="Tools\Reflection\AD_Reflection_Tools.cs" />
     <Compile Include="Tools\String_Format\AD_String_Format_Tools.cs" />
     <Compile Include="Tools\Wmi\AD_Wmi_Tools.cs" />
-    <Compile Include="Web References\WebReference\Reference.cs">
+    <Compile Include="Web References\WebReferenceCtrlPc\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -101,18 +101,19 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Web References\WebReference\Reference.map">
+    <None Include="Web References\WebReferenceCtrlPc\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\WebReference\WSCtrlPc.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CtrlPc_Service.resx">
       <DependentUpon>CtrlPc_Service.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -122,22 +123,23 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://192.168.1.24:8030/WSCtrlPc.asmx">
+    <WebReferenceUrl Include="http://ctrlpcws.ngrok.io/WSCtrlPc.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\WebReference\</RelPath>
-      <UpdateFromURL>http://192.168.1.24:8030/WSCtrlPc.asmx</UpdateFromURL>
+      <RelPath>Web References\WebReferenceCtrlPc\</RelPath>
+      <UpdateFromURL>http://ctrlpcws.ngrok.io/WSCtrlPc.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
       </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>ServiceCtrlPc_V2_WebReference_WSCtrlPc</CachedSettingsPropName>
+      <CachedAppSettingsObjectName>
+      </CachedAppSettingsObjectName>
+      <CachedSettingsPropName>
+      </CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web References\WebReference\WSCtrlPc.disco" />
+    <None Include="Web References\WebReferenceCtrlPc\WSCtrlPc.disco" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
