@@ -205,121 +205,16 @@ namespace Scheduler
 
             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Install. Service : Début Exécution Function \"OnAfterInstall\" ...", true);
 
-            Object versionStation = Registry.GetValue(@"HKEY_USERS\.DEFAULT\Software\CtrlPc\Version", "Version", null);
-            Object Guid = Registry.GetValue(@"HKEY_USERS\.DEFAULT\Software\CtrlPc\Version", "GUID", null);
-            String hostName = Dns.GetHostName();
-            Object identifiant = Registry.GetValue(@"HKEY_USERS\.DEFAULT\Software\CtrlPc\Version", "Identifiant", null);
-            //string pathLog_package = @"C:\ProgramData\CtrlPc\TEMP\Install.log";
-            string pathTempInstall = @"C:\ProgramData\CtrlPc\TEMP";
+
             string pathLog_InstallService = @"C:\ProgramData\CtrlPc\LOGS\Log_INSTALLUTIL_" + DateTime.Now.ToString("yyyyMMdd")+".Log";
 
-            //Inscription_GUID(hostName.ToString(),Guid.ToString(),identifiant.ToString(),versionStation.ToString());
-            //CheckVersion(versionStation.ToString());
-            //Rem_Log_Install_Package(pathLog_package,Guid.ToString());
-            //Purge_Rep_Install(pathTempInstall);
             Rem_Log_Install_Service(pathLog_InstallService);
 
             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Install. Service : Fin Exécution Function \"OnAfterInstall\" ...", true);
         }
-        private static void Inscription_GUID(string _hostName,string _guid,string _identifiant,string _version)
-        {
-            try
-            {
-                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Enregistrement du guid et de la version en BDD", true);
-                ServiceCtrlPc_V2.WebReference.WSCtrlPc ws = new ServiceCtrlPc_V2.WebReference.WSCtrlPc();
-                ws.CreateGuid(_hostName, _guid, _identifiant, _version);
-            }
-            catch (Exception _exception)
-            {
-                Tools.Log.AD_Logger_Tools.Log_Write("ERROR", _exception, new StackTrace(true));
-            }
-            
-        }
-        private static void CheckVersion(string _version_Station)
-        {
-            try
-            {
-                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Vérification des versions", true);
-                string versionMaj = File.ReadAllText(@"C:\ProgramData\CtrlPc\TEMP\version.txt");
-                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Version du package : "+versionMaj, true);
-                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Version de la station : " + _version_Station, true);
-                if (versionMaj == _version_Station.ToString())
-                {
-                    Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Package correctement installé !!!!!", true);
-                }
-                else
-                {
-                    Tools.Log.AD_Logger_Tools.Log_Write("WARN", "La montée de version est en erreur", true);
-                }
-            }
-            catch (Exception _exception)
-            {
-                Tools.Log.AD_Logger_Tools.Log_Write("ERROR", _exception, new StackTrace(true));
-            }
-            
-        }
-        private static void Rem_Log_Install_Package(string _path_log, string _guid)
-        {
-            Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Remonté des log d'installation du package", true);
-            DateTime dateTraitement = DateTime.Now;
-            ServiceCtrlPc_V2.WebReference.WSCtrlPc ws = new ServiceCtrlPc_V2.WebReference.WSCtrlPc();
-            if (File.Exists(_path_log))
-            {
-                string[] ligne = File.ReadAllLines(_path_log, Encoding.Default);
-                foreach (string line in ligne)
-                {
-                    try
-                    {
-                        
-                        if (line.Length > 5)
-                        {
-                            string ligneImport = line;
-                            if (ligneImport.Contains("'"))
-                            {
-                                ligneImport = ligneImport.Replace("'", "''");
-                            }
-                            string colonne1 = ligneImport.Substring(0, 22);
-                            string colonne2 = ligneImport.Substring(25);
-                            colonne1 = colonne1.Replace(",", ".");
-                            try
-                            {
-                                dateTraitement = Convert.ToDateTime(colonne1);
-                                ws.TraceLog(_guid, dateTraitement, "INSTALLATION", 2, colonne2);
-                            }
-                            catch (Exception)
-                            {
-                                ws.TraceLog(_guid, dateTraitement, "INSTALLATION", 2, ligneImport);
-                            }
-                        }
-                    }
-                    catch (Exception _exception)
-                    {
-                        Tools.Log.AD_Logger_Tools.Log_Write("ERROR", _exception, new StackTrace(true));
-                    }
-                }
-                try
-                {
-                    Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Suppression du log d'installation", true);
-                    File.Delete(_path_log);
-                }
-                catch (Exception err)
-                {
-                    Tools.Log.AD_Logger_Tools.Log_Write("ERROR", err, new StackTrace(true));
-                }
-            }
-        }
-        private static void Purge_Rep_Install(string _path_install_temp)
-        {
-            Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Suppression du répertoir : "+ _path_install_temp, true);
-            try
-            {
-                Process.Start("cmd.exe", @"/C RMDIR /S /Q "+ _path_install_temp);
-            }
-            catch (Exception err)
-            {
-                Tools.Log.AD_Logger_Tools.Log_Write("ERROR", err, new StackTrace(true));
-            }
-        }
+        
+       
+        
         private static void Rem_Log_Install_Service(string _path_Log_Service)
         {
             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Remonté du log d'installation du service", true);
