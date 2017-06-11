@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Management;
 using System.Net;
@@ -59,8 +60,11 @@ namespace Scheduler.Service.Settings
             CtrlPc_Service.Service_Security_Mode_Log_Data_Size_Max = Convert.ToInt64(200000000);
             CtrlPc_Service.HostName = Dns.GetHostName().ToString();
             CtrlPc_Service.guid= Registry.GetValue(@"HKEY_USERS\.DEFAULT\Software\CtrlPc\Version", "GUID", "123456789ABCDEF").ToString();
-            CtrlPc_Service.Flag_ThreadDownload = DateTime.Now.ToUniversalTime();
-            CtrlPc_Service.Time_Flag_ThreadDownload = 900;//900s =15 min
+            CtrlPc_Service.Flag_ThreadDownload = DateTime.Now.ToUniversalTime().AddSeconds(-900);
+            CtrlPc_Service.Time_Flag_ThreadDownload = 900;//900s =15 min ou au démarrage
+            CtrlPc_Service.Flag_ThreadScheduleZip = DateTime.Now.ToUniversalTime().AddHours(-24);
+            CtrlPc_Service.Time_Flag_ThreadScheduleZip = 24; //exécution toutes les 24h ou à chaque démarrage grace au -24
+            CtrlPc_Service.Time_Flag_Histo_Archive = 15; //15 jours d'historique
             CtrlPc_Service.Link_To_Download = ConfigurationManager.AppSettings["linkDownload"] + CtrlPc_Service.guid + "\\";
             CtrlPc_Service.Version_Service = ConfigurationManager.AppSettings["version"];
             CtrlPc_Service.Rep_Watcher = new string[] { @"C:\ProgramData\CtrlPc\UPDATE" };
@@ -68,7 +72,10 @@ namespace Scheduler.Service.Settings
             CtrlPc_Service._Package_Sleep_Time_Run = 300;
             CtrlPc_Service.AD_Dir_Tmp = @"C:\ProgramData\CtrlPc\TEMP";
 
-
+            if (!Directory.Exists(CtrlPc_Service.AD_Dir_Tmp))
+            {
+                Directory.CreateDirectory(CtrlPc_Service.AD_Dir_Tmp);
+            }
 
             if (Domain_Check().ToUpper() != "PDV3F33.LOCAL")
             {

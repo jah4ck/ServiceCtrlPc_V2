@@ -76,6 +76,7 @@
     <Compile Include="Service\Thread\Download\AD_Thread_Download.cs" />
     <Compile Include="Service\Thread\Watcher\AD_Thread_Watcher.cs" />
     <Compile Include="Service\Update\AD_Update_Service_Task.cs" />
+    <Compile Include="Tools\Archive\AD_Archive_Log.cs" />
     <Compile Include="Tools\CheckSum\AD_CheckSum_Tools.cs" />
     <Compile Include="Tools\Crypt\AD_Encryption_Tools.cs" />
     <Compile Include="Tools\Download\AD_Download_File.cs" />
