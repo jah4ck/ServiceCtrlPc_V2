@@ -18,6 +18,10 @@ namespace Scheduler.Tools.Archive
             string _Log_File_Base = (new FileInfo(Assembly.GetEntryAssembly().GetName().CodeBase.ToString().Replace("file:///", "")).Name.ToUpper().Replace(".EXE", "").Replace(".DLL", "").ToString());
             string _Log_File = ("Log_" + _Log_File_Base + "_").Replace("__", "_");
             string[] lstFileLog = Directory.GetFiles(_Log_Dir, "*" + _Log_File +"*");
+            if (!Directory.Exists(_Archive_Dir))
+            {
+                Directory.CreateDirectory(_Archive_Dir);
+            }
             string[] lstArchive = Directory.GetFiles(_Archive_Dir,"*.zip");
             //string _Command_Archive = _Script_Dir + "\\7z.exe u -r " + _Archive_Dir + "\\Archive_" + DateTime.Now.ToString("yyyyMMdd") + ".zip " + _ArchiveTMP_Dir + "\\*";
 
@@ -40,7 +44,7 @@ namespace Scheduler.Tools.Archive
                 }
             }
 
-            if (lstFileLog.Length>1)
+            if (lstFileLog.Length>=1)
             {
                 Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Il y a " +lstFileLog.Length + " fichier susceptible d'être archivés");
                 foreach (string _File_Log in lstFileLog)

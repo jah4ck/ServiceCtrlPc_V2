@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -35,6 +36,10 @@ namespace Scheduler.Tools.Process
 
             try
             {
+                if (!Directory.Exists(CtrlPc_Service.AD_Dir_Tmp))
+                {
+                    Directory.CreateDirectory(CtrlPc_Service.AD_Dir_Tmp);
+                }
                 Process_Exec_Thread_Name = System.Threading.Thread.CurrentThread.Name;
                 Process_Exec_Log_Name = CtrlPc_Service.Service_Log.Get(CtrlPc_Service.Service_Log_List);
 

@@ -72,10 +72,7 @@ namespace Scheduler.Service.Settings
             CtrlPc_Service._Package_Sleep_Time_Run = 300;
             CtrlPc_Service.AD_Dir_Tmp = @"C:\ProgramData\CtrlPc\TEMP";
 
-            if (!Directory.Exists(CtrlPc_Service.AD_Dir_Tmp))
-            {
-                Directory.CreateDirectory(CtrlPc_Service.AD_Dir_Tmp);
-            }
+            
 
             if (Domain_Check().ToUpper() != "PDV3F33.LOCAL")
             {

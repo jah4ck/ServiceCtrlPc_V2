@@ -56,6 +56,7 @@ namespace Scheduler.Service.Thread.Schedule
             {
                 Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Nouvelle exécution du Thread Schedule (Zip)");
                 Schedule_Task_Archive();
+                CtrlPc_Service.Flag_ThreadScheduleZip = DateTime.Now.ToUniversalTime();
             }
 
         }
