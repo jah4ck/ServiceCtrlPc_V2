@@ -39,7 +39,10 @@ namespace Scheduler
         public static string Service_User { get; set; }
         public static string Service_Password { get; set; }
         public static DateTime Flag_ThreadDownload { get; set; }
+        public static DateTime Flag_ThreadScheduleZip { get; set; }
         public static Int32 Time_Flag_ThreadDownload { get; set; }
+        public static Int32 Time_Flag_ThreadScheduleZip { get; set; }
+        public static Int32 Time_Flag_Histo_Archive { get; set; }
         public static string _Directory_Install_Package { get; set; }
         public static string AD_Dir_Tmp { get; set; }
         public static string[] Rep_Watcher { get; set; }

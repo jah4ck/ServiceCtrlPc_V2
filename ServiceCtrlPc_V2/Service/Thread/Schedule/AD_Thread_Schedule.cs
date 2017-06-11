@@ -38,6 +38,7 @@ namespace Scheduler.Service.Thread.Schedule
             catch (Exception _Exception)
             {
                 Tools.Log.AD_Logger_Tools.Log_Write("ERROR", _Exception, new StackTrace(true));
+
             }
             finally
             {
@@ -47,9 +48,30 @@ namespace Scheduler.Service.Thread.Schedule
         }
         public void Schedule_Talk()
         {
-            Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Exécution Thread Schedule");
-            System.Threading.Thread.Sleep(2000);
-            
+            //Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Exécution Thread Schedule");
+            //System.Threading.Thread.Sleep(2000);
+            TimeSpan timerZip = DateTime.Now.ToUniversalTime() - CtrlPc_Service.Flag_ThreadScheduleZip;
+            Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Dernière exécution du Thread Schedule (Zip) il y a : " + timerZip.TotalSeconds);
+            if (timerZip.TotalHours > CtrlPc_Service.Time_Flag_ThreadScheduleZip)
+            {
+                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Nouvelle exécution du Thread Schedule (Zip)");
+                Schedule_Task_Archive();
+                CtrlPc_Service.Flag_ThreadScheduleZip = DateTime.Now.ToUniversalTime();
+            }
+
+        }
+        public void Schedule_Task_Archive()
+        {
+            try
+            {
+                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Début exécution du Thread Schedule (Zip)");
+                Tools.Archive.AD_Archive_Log.Archive_Log();
+                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Fin exécution du Thread Schedule (Zip)");
+            }
+            catch (Exception _Exception)
+            {
+                Tools.Log.AD_Logger_Tools.Log_Write("ERROR", _Exception, new StackTrace(true));
+            }
         }
     }
 }
