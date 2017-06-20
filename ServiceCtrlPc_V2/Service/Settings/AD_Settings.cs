@@ -1,7 +1,9 @@
 ﻿using Microsoft.Win32;
+using Scheduler.Tools.Database;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -71,8 +73,9 @@ namespace Scheduler.Service.Settings
             CtrlPc_Service._Directory_Install_Package = @"C:\ProgramData\CtrlPc\UPDATE\TMP";
             CtrlPc_Service._Package_Sleep_Time_Run = 300;
             CtrlPc_Service.AD_Dir_Tmp = @"C:\ProgramData\CtrlPc\TEMP";
+            CtrlPc_Service.AD_Sqlite_DataSource = "C:\\ProgramData\\CtrlPc\\DATABASE\\CtrlPc_Database.Db";
 
-            
+
 
             if (Domain_Check().ToUpper() != "PDV3F33.LOCAL")
             {
@@ -101,6 +104,16 @@ namespace Scheduler.Service.Settings
                 }
 
 
+            }
+
+            try
+            {
+                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Ecriture en base de la date du jour");
+                AD_Sqlite_DB_Tools.AD_SQLite_DS_Run_Query(CtrlPc_Service.AD_Sqlite_DataSource, "INSERT", "INSERT INTO Connexion (Date_Debut) VALUES (datetime('now'))", 300, true, false);
+            }
+            catch (Exception _Exception)
+            {
+                Tools.Log.AD_Logger_Tools.Log_Write("ERROR", _Exception, new StackTrace(true));
             }
         }
         public String To_String()

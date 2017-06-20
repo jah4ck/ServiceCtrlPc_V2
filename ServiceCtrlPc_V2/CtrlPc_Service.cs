@@ -49,6 +49,27 @@ namespace Scheduler
         public static string Link_To_Download = "UNKNOWN";
         public static string Version_Service = "UNKNOWN";
 
+        /*gestion DATABASE */
+        #region database
+        public static string AD_Sqlite_DataSource { get; set; }
+        public static double AD_Sqlite_DB_Version { get; set; }
+        public static Int32 AD_Sqlite_DB_Busy_Retry { get; set; }
+
+        public static Tools.Database.AD_DB_Connexion_Tools Service_DB_Connexion = new Tools.Database.AD_DB_Connexion_Tools();
+        public static volatile List<Tools.Database.AD_DB_Connexion_Tools> Service_DB_Connexion_List = new List<Tools.Database.AD_DB_Connexion_Tools>();
+
+        public static volatile Int32 AD_Sqlite_DB_Connexion_Active = 0;
+        public static volatile Int32 AD_Sqlite_DB_Connexion_Totale = 0;
+
+        public static volatile Int32 AD_Sqlite_DB_Query_Active = 0;
+        public static volatile Int32 AD_Sqlite_DB_Query_Totale = 0;
+
+        public static volatile Int32 AD_Sqlite_DB_Transaction_Active = 0;
+        public static volatile Int32 AD_Sqlite_DB_Transaction_Totale = 0;
+        public static volatile Int32 AD_Sqlite_DB_Transaction_Commited = 0;
+        public static volatile Int32 AD_Sqlite_DB_Transaction_Rollbacked = 0;
+        #endregion
+
         public static ServiceCtrlPc_V2.WebReference.WSCtrlPc ws = new ServiceCtrlPc_V2.WebReference.WSCtrlPc();
 
         public static System.Threading.ThreadPriority Service_ThreadPriority = System.Threading.ThreadPriority.Lowest;
