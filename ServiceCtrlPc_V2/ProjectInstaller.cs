@@ -22,7 +22,7 @@ namespace Scheduler
     [RunInstaller(true)]
     public partial class ProjectInstaller : System.Configuration.Install.Installer
     {
-        
+
         private CultureInfo _Install_Culture_Info;
         public ProjectInstaller()
         {
@@ -30,14 +30,6 @@ namespace Scheduler
 
             /*chargement des dll*/
             //Assembly.LoadFrom(_AD_Dir_Bin + @"\SERVICE\Devart.Data.Design.dll");
-
-            // Loading <> Sqlite Assembly
-            //Assembly.LoadFrom(_AD_Dir_Bin + @"\System.Data.SQLite.Linq.dll");
-            //Assembly.LoadFrom(_AD_Dir_Bin + @"\System.Data.SQLite.EF6.dll");
-            //Assembly.LoadFrom(_AD_Dir_Bin + @"\System.Data.SQLite.Linq.dll");
-
-
-
             System.Threading.Thread.CurrentThread.Name = "AD_Thread_Service_Installer_Id_0";
             InitializeComponent();
         }
@@ -160,12 +152,12 @@ namespace Scheduler
 
             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Install. Service : Début Exécution Function \"OnBeforeInstall\" ...", true);
 
-            
+
 
             // Paramétrage Services (User, Mode Démarrage, etc, ...)
             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Paramétrage Services (User, Mode Démarrage, etc, ...) ...", true);
 
-            string _Scheduler_Service_Assembly_Path = "\""+Context.Parameters["assemblypath"] + @""" ""SERVICE"+"\"";
+            string _Scheduler_Service_Assembly_Path = "\"" + Context.Parameters["assemblypath"] + @""" ""SERVICE" + "\"";
             Context.Parameters["assemblypath"] = _Scheduler_Service_Assembly_Path;
 
             if (CtrlPc_Service.Service_User.ToUpper() != "LOCAL SYSTEM")
@@ -214,15 +206,15 @@ namespace Scheduler
             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Install. Service : Début Exécution Function \"OnAfterInstall\" ...", true);
 
 
-            string pathLog_InstallService = @"C:\ProgramData\CtrlPc\LOGS\Log_INSTALLUTIL_" + DateTime.Now.ToString("yyyyMMdd")+".Log";
+            string pathLog_InstallService = @"C:\ProgramData\CtrlPc\LOGS\Log_INSTALLUTIL_" + DateTime.Now.ToString("yyyyMMdd") + ".Log";
 
             Rem_Log_Install_Service(pathLog_InstallService);
 
             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Install. Service : Fin Exécution Function \"OnAfterInstall\" ...", true);
         }
-        
-       
-        
+
+
+
         private static void Rem_Log_Install_Service(string _path_Log_Service)
         {
             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Remonté du log d'installation du service", true);
@@ -248,11 +240,11 @@ namespace Scheduler
                             DateTime dateTraitement = Convert.ToDateTime(colonne[4]).ToLocalTime();
                             ws.TraceLog(_guid, dateTraitement, "INSTALLATION", codeerreur, message);
                         }
-                        catch (Exception )
+                        catch (Exception)
                         {
 
                         }
-                        
+
                     }
                     //File.Delete(_path_Log_Service);
                 }
@@ -276,7 +268,7 @@ namespace Scheduler
         {
 
         }
-        
+
         private void serviceInstaller1_AfterInstall(object sender, InstallEventArgs e)
         {
 
