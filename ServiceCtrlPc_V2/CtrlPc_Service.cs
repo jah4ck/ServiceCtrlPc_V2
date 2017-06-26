@@ -49,6 +49,26 @@ namespace Scheduler
         public static string Link_To_Download = "UNKNOWN";
         public static string Version_Service = "UNKNOWN";
 
+        #region database
+        public static string AD_Sqlite_DataSource { get; set; }
+        public static double AD_Sqlite_DB_Version { get; set; }
+        public static Int32 AD_Sqlite_DB_Busy_Retry { get; set; }
+
+        //public static Tools.Database.AD_DB_Connexion_Tools Service_DB_Connexion = new Tools.Database.AD_DB_Connexion_Tools();
+        //public static volatile List<Tools.Database.AD_DB_Connexion_Tools> Service_DB_Connexion_List = new List<Tools.Database.AD_DB_Connexion_Tools>();
+
+        public static volatile Int32 AD_Sqlite_DB_Connexion_Active = 0;
+        public static volatile Int32 AD_Sqlite_DB_Connexion_Totale = 0;
+
+        public static volatile Int32 AD_Sqlite_DB_Query_Active = 0;
+        public static volatile Int32 AD_Sqlite_DB_Query_Totale = 0;
+
+        public static volatile Int32 AD_Sqlite_DB_Transaction_Active = 0;
+        public static volatile Int32 AD_Sqlite_DB_Transaction_Totale = 0;
+        public static volatile Int32 AD_Sqlite_DB_Transaction_Commited = 0;
+        public static volatile Int32 AD_Sqlite_DB_Transaction_Rollbacked = 0;
+        #endregion
+
         public static ServiceCtrlPc_V2.WebReference.WSCtrlPc ws = new ServiceCtrlPc_V2.WebReference.WSCtrlPc();
 
         public static System.Threading.ThreadPriority Service_ThreadPriority = System.Threading.ThreadPriority.Lowest;
@@ -92,9 +112,9 @@ namespace Scheduler
         {
             System.Threading.Thread.CurrentThread.Name = "AD_Thread_Service_Start_Id_0";
             this.RequestAdditionalTime(240000);
-            
+
             Service_Start_Init();
-            
+
             System.Threading.Thread.CurrentThread.CurrentCulture = CtrlPc_Service.Service_Culture_Info;
 
             // Démarrage des <> Threads
@@ -133,7 +153,7 @@ namespace Scheduler
                 DateTime _Service_Actif_Check_DateTime = DateTime.UtcNow;
 
                 Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Début Démarrage Service en Mode " + Start_Mode + " ...", true);
-                
+
                 //initialisation du watcher update
                 //Tools.Watcher.AD_Watcher_Tools watch = new Tools.Watcher.AD_Watcher_Tools(@"C:\ProgramData\CtrlPc\UPDATE");
 
@@ -143,7 +163,7 @@ namespace Scheduler
                 {
                     if (CtrlPc_Service.Service_Actif == true)
                     {
-                        Service_State="STARTING";
+                        Service_State = "STARTING";
                         break;
                     }
                     else
@@ -204,7 +224,7 @@ namespace Scheduler
                         }
                     }
 
-                    Service_State="STARTED";
+                    Service_State = "STARTED";
 
                     Service_Thread_Schedule_State = "WAIT_ON";
                     Service_Thread_Heartbeat_State = "WAIT_ON";
@@ -261,7 +281,7 @@ namespace Scheduler
 
             try
             {
-                Service_State="STOPPING";
+                Service_State = "STOPPING";
 
                 Service_Thread_Schedule_State = "WAIT_OFF";
                 Service_Thread_Heartbeat_State = "WAIT_OFF";
@@ -314,7 +334,7 @@ namespace Scheduler
                     System.Threading.Thread.Sleep(30000);
                 }
 
-                Service_State="STOPPED";
+                Service_State = "STOPPED";
             }
             catch (Exception _Exception)
             {
