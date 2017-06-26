@@ -102,8 +102,7 @@
     <Compile Include="Tools\Archive\AD_Archive_Log.cs" />
     <Compile Include="Tools\CheckSum\AD_CheckSum_Tools.cs" />
     <Compile Include="Tools\Crypt\AD_Encryption_Tools.cs" />
-    <Compile Include="Tools\Database\AD_DB_Connexion_Tools.cs" />
-    <Compile Include="Tools\Database\AD_Sqlite_DB_Tools.cs" />
+    <Compile Include="Tools\Database\AD_Exec_Query_SQL.cs" />
     <Compile Include="Tools\Download\AD_Download_File.cs" />
     <Compile Include="Tools\Heure\SynchroHeure.cs" />
     <Compile Include="Tools\Log\AD_Logger_Source_Tools.cs" />

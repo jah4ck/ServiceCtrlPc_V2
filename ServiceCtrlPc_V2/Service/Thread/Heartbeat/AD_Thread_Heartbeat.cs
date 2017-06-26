@@ -1,6 +1,8 @@
-﻿using ServiceCtrlPc_V2.Tools.Heure;
+﻿using ServiceCtrlPc_V2.Tools.Database;
+using ServiceCtrlPc_V2.Tools.Heure;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -74,7 +76,33 @@ namespace Scheduler.Service.Thread.Heartbeat
                 {
                     Tools.Log.AD_Logger_Tools.Log_Write("WARN", "Erreur lors du contrôle d'arrêt");
                 }
-                
+
+                try
+                {
+                    Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Maj de la BDD");
+                    DataSet myDataSetConnexion = new DataSet();
+                    myDataSetConnexion = AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "SELECT", "SELECT count(ID_Connexion) FROM Connexion WHERE strftime('%Y%m%d', Date_Debut) = strftime('%Y%m%d', datetime('now'))", 300);
+                    DataTable table = myDataSetConnexion.Tables["Table"];
+                    IEnumerable<DataRow> result = table.AsEnumerable();
+                    if (result.Count()>0)
+                    {
+                        Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Date de début à la date du jour trouvé");
+                        Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Mise à jour de la date de fin");
+                        AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "UPDATE", "UPDATE Connexion SET Date_Fin = (datetime('now')),Temp_Activite=((julianday(datetime('now')) - julianday(Date_Debut))*1440) WHERE ID_Connexion = (SELECT ID_Connexion FROM Connexion WHERE strftime('%Y%m%d', Date_Debut) = strftime('%Y%m%d', datetime('now')) ORDER BY Date_Debut DESC LIMIT 1)", 300);
+                    }
+                    else
+                    {
+                        Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Date de début à la date du jour non trouvé");
+                        Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Création d'une nouvelle ligne");
+                        AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "INSERT", "INSERT INTO Connexion (Date_Debut) VALUES (datetime('now'))", 300);
+                    }
+                    Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Maj de la BDD terminée");
+                }
+                catch (Exception _Exception)
+                {
+                    Tools.Log.AD_Logger_Tools.Log_Write("ERROR", _Exception, new StackTrace(true));
+                }
+
 
             }
             catch (Exception err)

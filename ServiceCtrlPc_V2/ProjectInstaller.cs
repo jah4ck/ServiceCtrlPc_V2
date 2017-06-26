@@ -30,6 +30,11 @@ namespace Scheduler
 
             /*chargement des dll*/
             //Assembly.LoadFrom(_AD_Dir_Bin + @"\SERVICE\Devart.Data.Design.dll");
+
+            Assembly.LoadFrom(_AD_Dir_Bin + @"\System.Data.SQLite.Linq.dll");
+            Assembly.LoadFrom(_AD_Dir_Bin + @"\System.Data.SQLite.EF6.dll");
+            Assembly.LoadFrom(_AD_Dir_Bin + @"\System.Data.SQLite.Linq.dll");
+
             System.Threading.Thread.CurrentThread.Name = "AD_Thread_Service_Installer_Id_0";
             InitializeComponent();
         }
