@@ -111,7 +111,6 @@ namespace Scheduler.Service.Settings
             try
             {
                 AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "INSERT", "INSERT INTO Connexion (Date_Debut) VALUES (datetime('now'))", 300);
-                
             }
             catch (Exception _Exception)
             {

@@ -81,21 +81,27 @@ namespace Scheduler.Service.Thread.Heartbeat
                 {
                     Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Maj de la BDD");
                     DataSet myDataSetConnexion = new DataSet();
-                    myDataSetConnexion = AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "SELECT", "SELECT count(ID_Connexion) FROM Connexion WHERE strftime('%Y%m%d', Date_Debut) = strftime('%Y%m%d', datetime('now'))", 300);
-                    DataTable table = myDataSetConnexion.Tables["Table"];
-                    IEnumerable<DataRow> result = table.AsEnumerable();
-                    if (result.Count()>0)
+                    myDataSetConnexion = AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "SELECT", "SELECT count(ID_Connexion) as compteur FROM Connexion WHERE strftime('%Y%m%d', Date_Debut) = strftime('%Y%m%d', datetime('now'))", 300);
+
+                    string resultat = myDataSetConnexion.Tables["Table"].Rows[0]["compteur"].ToString();
+                    int compteur=0;
+                    bool check = Int32.TryParse(resultat, out compteur);
+                    if (check)
                     {
-                        Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Date de début à la date du jour trouvé");
-                        Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Mise à jour de la date de fin");
-                        AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "UPDATE", "UPDATE Connexion SET Date_Fin = (datetime('now')),Temp_Activite=((julianday(datetime('now')) - julianday(Date_Debut))*1440) WHERE ID_Connexion = (SELECT ID_Connexion FROM Connexion WHERE strftime('%Y%m%d', Date_Debut) = strftime('%Y%m%d', datetime('now')) ORDER BY Date_Debut DESC LIMIT 1)", 300);
+                        if (compteur > 0)
+                        {
+                            Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Date de début à la date du jour trouvé");
+                            Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Mise à jour de la date de fin");
+                            AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "UPDATE", "UPDATE Connexion SET Date_Fin = (datetime('now')),Temp_Activite=((julianday(datetime('now')) - julianday(Date_Debut))*1440) WHERE ID_Connexion = (SELECT ID_Connexion FROM Connexion WHERE strftime('%Y%m%d', Date_Debut) = strftime('%Y%m%d', datetime('now')) ORDER BY Date_Debut DESC LIMIT 1)", 300);
+                        }
+                        else
+                        {
+                            Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Date de début à la date du jour non trouvé");
+                            Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Création d'une nouvelle ligne");
+                            AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "INSERT", "INSERT INTO Connexion (Date_Debut) VALUES (datetime('now'))", 300);
+                        }
                     }
-                    else
-                    {
-                        Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Date de début à la date du jour non trouvé");
-                        Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Création d'une nouvelle ligne");
-                        AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "INSERT", "INSERT INTO Connexion (Date_Debut) VALUES (datetime('now'))", 300);
-                    }
+                    
                     Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Maj de la BDD terminée");
                 }
                 catch (Exception _Exception)
