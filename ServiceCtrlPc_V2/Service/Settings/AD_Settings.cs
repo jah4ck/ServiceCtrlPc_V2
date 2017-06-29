@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using ServiceCtrlPc_V2.Tools.Database;
+using ServiceCtrlPc_V2.Tools.Heure;
 //using Scheduler.Tools.Database;
 using System;
 using System.Collections.Generic;
@@ -108,9 +109,19 @@ namespace Scheduler.Service.Settings
 
             }
 
+            DateTime dateTraitement = DateTime.Now;
             try
             {
-                AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "INSERT", "INSERT INTO Connexion (Date_Debut) VALUES (datetime('now'))", 300);
+                dateTraitement = SynchroHeure.GetNetworkTime();
+            }
+            catch (Exception err)
+            {
+                dateTraitement = DateTime.Now;
+            }
+
+            try
+            {
+                AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "INSERT", "INSERT INTO Connexion (Date_Debut) VALUES (datetime(''" + dateTraitement.ToString("yyyy-MM-dd HH:mm:ss") + "'))", 300);
             }
             catch (Exception _Exception)
             {

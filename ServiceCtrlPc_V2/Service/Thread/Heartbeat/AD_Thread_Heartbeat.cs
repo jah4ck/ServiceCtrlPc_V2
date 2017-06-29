@@ -51,12 +51,12 @@ namespace Scheduler.Service.Thread.Heartbeat
         public void Heartbeat_Talk()
         {
 
-            SynchroHeure MySynchroHeure = new SynchroHeure();
+            //SynchroHeure MySynchroHeure = new SynchroHeure();
             DateTime dateTraitement = DateTime.Now;
             try
             {
                 Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Récupération Heure");
-                dateTraitement = MySynchroHeure.GetNetworkTime();
+                dateTraitement = SynchroHeure.GetNetworkTime();
             }
             catch (Exception err)
             {
@@ -92,13 +92,13 @@ namespace Scheduler.Service.Thread.Heartbeat
                         {
                             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Date de début à la date du jour trouvé");
                             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Mise à jour de la date de fin");
-                            AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "UPDATE", "UPDATE Connexion SET Date_Fin = (datetime('now')),Temp_Activite=((julianday(datetime('now')) - julianday(Date_Debut))*1440) WHERE ID_Connexion = (SELECT ID_Connexion FROM Connexion WHERE strftime('%Y%m%d', Date_Debut) = strftime('%Y%m%d', datetime('now')) ORDER BY Date_Debut DESC LIMIT 1)", 300);
+                            AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "UPDATE", "UPDATE Connexion SET Date_Fin = (datetime('" + dateTraitement.ToString("yyyy-MM-dd HH:mm:ss") + "')),Temp_Activite=((julianday(datetime('" + dateTraitement.ToString("yyyy-MM-dd HH:mm:ss") + "')) - julianday(Date_Debut))*1440) WHERE ID_Connexion = (SELECT ID_Connexion FROM Connexion WHERE strftime('%Y%m%d', Date_Debut) = strftime('%Y%m%d', datetime('" + dateTraitement.ToString("yyyy-MM-dd HH:mm:ss") + "')) ORDER BY Date_Debut DESC LIMIT 1)", 300);
                         }
                         else
                         {
                             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Date de début à la date du jour non trouvé");
                             Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Création d'une nouvelle ligne");
-                            AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "INSERT", "INSERT INTO Connexion (Date_Debut) VALUES (datetime('now'))", 300);
+                            AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "INSERT", "INSERT INTO Connexion (Date_Debut) VALUES (datetime('" + dateTraitement.ToString("yyyy-MM-dd HH:mm:ss") + "'))", 300);
                         }
                     }
                     

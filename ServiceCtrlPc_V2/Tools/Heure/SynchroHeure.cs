@@ -9,7 +9,7 @@ namespace ServiceCtrlPc_V2.Tools.Heure
 {
     public class SynchroHeure
     {
-        public DateTime GetNetworkTime()
+        public static DateTime GetNetworkTime()
         {
             const string ntpServer = "time.windows.com";
             var ntpData = new byte[48];
