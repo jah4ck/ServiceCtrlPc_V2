@@ -34,6 +34,7 @@ namespace Scheduler
             Assembly.LoadFrom(_AD_Dir_Bin + @"\System.Data.SQLite.Linq.dll");
             Assembly.LoadFrom(_AD_Dir_Bin + @"\System.Data.SQLite.EF6.dll");
             Assembly.LoadFrom(_AD_Dir_Bin + @"\System.Data.SQLite.Linq.dll");
+            Assembly.LoadFrom(_AD_Dir_Bin + @"\CtrlPc_Write_Trace.dll");
 
             System.Threading.Thread.CurrentThread.Name = "AD_Thread_Service_Installer_Id_0";
             InitializeComponent();

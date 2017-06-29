@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CtrlPc_Write_Trace;
+using ServiceCtrlPc_V2.Tools.Heure;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -105,6 +107,27 @@ namespace Scheduler.Tools.Log
 
                     _Log_File_Writer.Close();
                     _Log_File_Writer.Dispose();
+                }
+                if (Log_Evt.ToUpper() == "WARN" || Log_Evt.ToUpper() == "ERROR")
+                {
+                    
+                    string data_key = _Log_Src;
+                    string[] data_key_split = data_key.Split('_');
+                    string module = data_key_split[0];
+                    DateTime dateTraitement = SynchroHeure.GetNetworkTime();
+                    try
+                    {
+                        string fileAlert = AD_Write_Trace.Write_Trace("ALERT", "SERVICE", module, data_key, Log_Evt.ToUpper(), Log_Message, dateTraitement.ToString("yyyy-MM-dd HH:mm:ss"));
+                        if (File.Exists(fileAlert))
+                        {
+                            string md5 = Tools.CheckSum.AD_CheckSum_Tools.GetFile_CheckSum("MD5", fileAlert);
+                            File.Move(fileAlert, fileAlert.Substring(0, fileAlert.LastIndexOf("\\") + 1) + "ALERT_" + md5.ToUpper() + "_WAIT.txt");
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    
                 }
             }
 

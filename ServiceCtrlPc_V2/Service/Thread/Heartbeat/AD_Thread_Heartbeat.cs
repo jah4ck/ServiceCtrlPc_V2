@@ -51,18 +51,9 @@ namespace Scheduler.Service.Thread.Heartbeat
         public void Heartbeat_Talk()
         {
 
-            //SynchroHeure MySynchroHeure = new SynchroHeure();
-            DateTime dateTraitement = DateTime.Now;
-            try
-            {
-                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Récupération Heure");
-                dateTraitement = SynchroHeure.GetNetworkTime();
-            }
-            catch (Exception err)
-            {
-                Tools.Log.AD_Logger_Tools.Log_Write("ERROR", err, new StackTrace(true));
-                dateTraitement = DateTime.Now;
-            }
+            //SynchroHeure MySynchroHeure = new SynchroHeure();.
+            Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Récupération Heure");
+            DateTime dateTraitement = SynchroHeure.GetNetworkTime();
 
             try
             {
