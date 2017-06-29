@@ -54,9 +54,10 @@ namespace Scheduler.Service.Thread.Watcher
             {
                 try
                 {
-                    DirectoryInfo _Packages_Updates_Directory_Info = new System.IO.DirectoryInfo(rep);
+                    
                     if (rep.ToUpper().Contains("UPDATE"))
                     {
+                        DirectoryInfo _Packages_Updates_Directory_Info = new System.IO.DirectoryInfo(rep);
                         FileSystemInfo[] _Packages_Updates_Files = _Packages_Updates_Directory_Info.GetFileSystemInfos("MEP_CTRLPC_*.EXE");
                         foreach (FileInfo _Packages_Updates_File in _Packages_Updates_Files)
                         {
@@ -77,10 +78,40 @@ namespace Scheduler.Service.Thread.Watcher
                         }
 
                     }
+                    
                 }
                 catch (Exception err)
                 {
                     Tools.Log.AD_Logger_Tools.Log_Write("ERROR", err, new StackTrace(true));
+                }
+                try
+                {
+                    _Log_Src_Thread_Watcher = CtrlPc_Service.Service_Log.Update(CtrlPc_Service.Service_Log_List, System.Threading.Thread.CurrentThread.Name.ToUpper(), "Alert_" + System.Guid.NewGuid().ToString(), true);
+                    if (rep.ToUpper().Contains("ALERT"))
+                    {
+
+                        DirectoryInfo _Packages_Updates_Directory_Info = new System.IO.DirectoryInfo(rep);
+                        FileSystemInfo[] _Files = _Packages_Updates_Directory_Info.GetFileSystemInfos("*_WAIT.txt");
+                        foreach (FileInfo _File in _Files)
+                        {
+                            string _MD5_Ref = _File.Name.ToString().ToUpper().Replace("ALERT_", "").Replace("_WAIT.txt", "").ToLower();
+                            string _MD5 = Tools.CheckSum.AD_CheckSum_Tools.GetFile_CheckSum("MD5", _File.FullName.ToString());
+                            string _File_Name = _File.Name.ToString().ToUpper();
+                            if (_MD5_Ref == _MD5)
+                            {
+                                Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Le fichier trouvé est correct : " + _File.Name+", et prèt à être importé dans la bdd");
+                            }
+                            else
+                            {
+                                Tools.Log.AD_Logger_Tools.Log_Write("WARN", "Le fichier trouvé ("+ _File_Name + ") est incorrect (différence de md5), fichier supprimé: " + _MD5 + "<>" + _MD5_Ref);
+                                _File.Delete();
+                            }
+                        }
+                    }
+                }
+                catch (Exception _Exception)
+                {
+                    Tools.Log.AD_Logger_Tools.Log_Write("ERROR", _Exception, new StackTrace(true));
                 }
             }
         }

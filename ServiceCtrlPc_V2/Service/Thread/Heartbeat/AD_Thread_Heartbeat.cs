@@ -72,7 +72,7 @@ namespace Scheduler.Service.Thread.Heartbeat
                 {
                     Tools.Log.AD_Logger_Tools.Log_Write("INFO", "Maj de la BDD");
                     DataSet myDataSetConnexion = new DataSet();
-                    myDataSetConnexion = AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "SELECT", "SELECT count(ID_Connexion) as compteur FROM Connexion WHERE strftime('%Y%m%d', Date_Debut) = strftime('%Y%m%d', datetime('now'))", 300);
+                    myDataSetConnexion = AD_Exec_Query_SQL.AD_ExecQuery(CtrlPc_Service.AD_Sqlite_DataSource, "SELECT", "SELECT count(ID_Connexion) as compteur FROM Connexion WHERE strftime('%Y%m%d', Date_Debut) = strftime('%Y%m%d', datetime('" + dateTraitement.ToString("yyyy-MM-dd HH:mm:ss") + "'))", 300);
 
                     string resultat = myDataSetConnexion.Tables["Table"].Rows[0]["compteur"].ToString();
                     int compteur=0;
